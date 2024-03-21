@@ -113,13 +113,6 @@
                     </template>
                     <template #content>
                       <ul>
-                        <li>
-                          <a class="link w-full" :href="`https://github.com/${props.owner}/${props.repo}/blob/${props.branch}/${item.path}`" target="_blank">
-                            <div class="truncate">See file on GitHub</div>
-                            <Icon name="ExternalLink" class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"/>
-                          </a>
-                        </li>
-                        <li><hr class="border-t border-neutral-150 dark:border-neutral-750 my-2"/></li>
                         <li><button class="link w-full" @click="openRenameModal(item)">Rename</button></li>
                         <li><button class="link-danger w-full" @click="openDeleteModal(item)">Delete</button></li>
                       </ul>

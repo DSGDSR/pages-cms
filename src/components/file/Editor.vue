@@ -8,7 +8,8 @@
     <div class="error h-screen">
       <div class="text-center max-w-md">
         <h1 class="font-semibold text-2xl mb-2">Nope, file's not here.</h1>
-        <p class="text-neutral-400 mb-6">It may have moved or been deleted. Make sure as well things are properly configured and that your connection is working.</p>
+        <p class="text-neutral-400 mb-6">It may have moved or been deleted. Make sure as well things are properly
+          configured and that your connection is working.</p>
         <div class="flex gap-x-2 justify-center">
           <router-link class="btn-primary" :to="{ name: 'content' }">Take me out of here</router-link>
         </div>
@@ -20,7 +21,9 @@
     <div class="error h-screen">
       <div class="text-center max-w-md">
         <h1 class="font-semibold text-2xl mb-2">The file is missing.</h1>
-        <p class="text-neutral-400 mb-6">There is no file yet at <code class="text-sm bg-neutral-100 dark:bg-neutral-850 rounded-lg p-1">{{ schema.path }}</code>. Do you want to create one?</p>
+        <p class="text-neutral-400 mb-6">There is no file yet at <code
+            class="text-sm bg-neutral-100 dark:bg-neutral-850 rounded-lg p-1">{{ schema.path }}</code>. Do you want to
+          create one?</p>
         <div class="flex gap-x-2 justify-center">
           <button class="btn-primary" @click="createSingleFile(schema.path)">Create the file</button>
         </div>
@@ -30,10 +33,12 @@
   <!-- Editor -->
   <template v-else>
     <!-- Header (navigation + history + actions) -->
-    <header class="z-50 sticky top-0 bg-white border-b border-neutral-200 dark:bg-neutral-950 dark:border-neutral-750 flex gap-x-1 lg:gap-x-2 items-center py-1 px-2 lg:py-2 lg:px-4">
-      <router-link v-if="schema && schema.type && (schema.type == 'collection')" :to="{ name: 'content', params: { name: name }, ...(folder != schema.path ? { query: { folder: folder } } : {}) }">
+    <header
+      class="z-50 sticky top-0 bg-white border-b border-neutral-200 dark:bg-neutral-950 dark:border-neutral-750 flex gap-x-1 lg:gap-x-2 items-center py-1 px-2 lg:py-2 lg:px-4">
+      <router-link v-if="schema && schema.type && (schema.type == 'collection')"
+        :to="{ name: 'content', params: { name: name }, ...(folder != schema.path ? { query: { folder: folder } } : {}) }">
         <button class="!hidden lg:!inline-flex btn-secondary ">
-          <Icon name="ArrowLeft" class="h-4 w-4 stroke-2 shrink-0"/>
+          <Icon name="ArrowLeft" class="h-4 w-4 stroke-2 shrink-0" />
           <span>{{ schema.label || schema.name }}</span>
           <ul v-if="subfolders.length > 0" class="flex gap-x-2 items-center">
             <template v-if="subfolders.length > 2">
@@ -43,57 +48,46 @@
               </li>
               <li class="flex gap-x-2 items-center">
                 <span class="text-neutral-400 dark:text-neutral-500">/</span>
-                <Icon name="Folder" class="h-4 w-4 stroke-2 shrink-0"/>
+                <Icon name="Folder" class="h-4 w-4 stroke-2 shrink-0" />
                 <span class="truncate max-w-20">{{ subfolders.slice(-1)[0] }}</span>
               </li>
             </template>
             <template v-else>
               <li v-for="(subfolder, index) in subfolders" :key="index" class="flex gap-x-2 items-center">
                 <span class="text-neutral-400 dark:text-neutral-500">/</span>
-                <Icon name="Folder" class="h-4 w-4 stroke-2 shrink-0"/>
+                <Icon name="Folder" class="h-4 w-4 stroke-2 shrink-0" />
                 <span class="truncate max-w-20">{{ subfolder }}</span>
               </li>
             </template>
           </ul>
         </button>
         <button class="lg:hidden btn-icon-secondary">
-          <Icon name="ArrowLeft" class="h-4 w-4 stroke-2 shrink-0"/>
+          <Icon name="ArrowLeft" class="h-4 w-4 stroke-2 shrink-0" />
         </button>
       </router-link>
       <div class="flex gap-x-2 ml-auto items-center">
         <template v-if="sha">
-          <History
-            :owner="props.owner"
-            :repo="props.repo"
-            :branch="props.branch"
-            :path="currentPath"
-            :sha="sha"
-          />
+          <History :owner="props.owner" :repo="props.repo" :branch="props.branch" :path="currentPath" :sha="sha" />
         </template>
-        <button class="btn-primary" @click.prevent="save" :disabled="(sha && !isModelChanged) || (status === 'validating-config')">
+        <button class="btn-primary" @click.prevent="save"
+          :disabled="(sha && !isModelChanged) || (status === 'validating-config')">
           Save
           <div class="spinner-white-sm" v-if="status == 'saving'"></div>
         </button>
-        <Dropdown v-if="sha" :dropdownClass="'!max-w-none w-48'">
+        <Dropdown v-if="sha && schema && schema.type && (schema.type=='collection')"
+          :dropdownClass=" '!max-w-none w-48' ">
           <template #trigger>
-            <button class="btn-icon-secondary group-[.dropdown-active]:bg-neutral-100 dark:group-[.dropdown-active]:bg-neutral-850">
-              <Icon name="MoreVertical" class="h-4 w-4 stroke-2 shrink-0"/>
+            <button
+              class="btn-icon-secondary group-[.dropdown-active]:bg-neutral-100 dark:group-[.dropdown-active]:bg-neutral-850">
+              <Icon name="MoreVertical" class="h-4 w-4 stroke-2 shrink-0" />
             </button>
           </template>
           <template #content>
             <ul>
-              <li>
-                <a :href="`https://github.com/${props.owner}/${props.repo}/blob/${props.branch}/${props.path}`" target="_blank" class="link">
-                  <div>See file on GitHub</div>
-                  <Icon name="ExternalLink" class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"/>
-                </a>
-              </li>
-              <template v-if="schema && schema.type && (schema.type == 'collection')">
-                <li><hr class="border-t border-neutral-150 dark:border-neutral-750 my-2"/></li>
-                <li><button class="link w-full" @click.prevent="renameComponent.openModal()">Rename</button></li>
-                <li><router-link :to="{ name: 'new', params: { path: currentPath } }" class="link w-full">Make a copy</router-link></li>
-                <li><button class="link-danger w-full" @click.prevent="deleteComponent.openModal()">Delete</button></li>
-              </template>
+              <li><button class="link w-full" @click.prevent="renameComponent.openModal()">Rename</button></li>
+              <li><router-link :to="{ name: 'new', params: { path: currentPath } }" class="link w-full">Make a
+                  copy</router-link></li>
+              <li><button class="link-danger w-full" @click.prevent="deleteComponent.openModal()">Delete</button></li>
             </ul>
           </template>
         </Dropdown>
@@ -104,20 +98,22 @@
       <h1 v-if="displayTitle" class="font-semibold text-2xl lg:text-4xl mb-8">{{ displayTitle }}</h1>
       <div v-if="displayDescription" v-html="displayDescription" class="mb-8 prose"></div>
       <template v-if="model || model === ''">
-        <template v-if="['yaml-frontmatter', 'json-frontmatter', 'toml-frontmatter', 'yaml', 'json', 'toml'].includes(mode)">
+        <template
+          v-if="['yaml-frontmatter', 'json-frontmatter', 'toml-frontmatter', 'yaml', 'json', 'toml'].includes(mode)">
           <template v-if="schema && schema.fields">
-            <field v-for="field in schema.fields" :key="field.name" :field="field" :model="model" ref="fieldRefs"></field>
+            <field v-for="field in schema.fields" :key="field.name" :field="field" :model="model" ref="fieldRefs">
+            </field>
           </template>
           <template v-else>
-            <CodeMirror v-model="model" :language="extension" :validation="schemaValidation"/>
+            <CodeMirror v-model="model" :language="extension" :validation="schemaValidation" />
           </template>
         </template>
         <template v-else-if="mode === 'code'">
-          <CodeMirror v-model="model" :language="extension" :validation="schemaValidation"/>
+          <CodeMirror v-model="model" :language="extension" :validation="schemaValidation" />
         </template>
         <template v-else-if="mode === 'datagrid'">
           <div class="overflow-x-auto">
-            <Datagrid v-model="model"/>
+            <Datagrid v-model="model" />
           </div>
         </template>
         <template v-else>
@@ -126,24 +122,11 @@
       </template>
     </main>
     <!-- Rename modal -->
-    <Rename
-      ref="renameComponent"
-      :owner="props.owner"
-      :repo="props.repo"
-      :branch="props.branch"
-      :path="currentPath"
-      @file-renamed="handleRenamed"
-    />
+    <Rename ref="renameComponent" :owner="props.owner" :repo="props.repo" :branch="props.branch" :path="currentPath"
+      @file-renamed="handleRenamed" />
     <!-- Delete modal -->
-    <Delete
-      ref="deleteComponent"
-      :owner="props.owner"
-      :repo="props.repo"
-      :branch="props.branch"
-      :path="currentPath"
-      :sha="sha"
-      @file-deleted="handleDeleted"
-    />
+    <Delete ref="deleteComponent" :owner="props.owner" :repo="props.repo" :branch="props.branch" :path="currentPath"
+      :sha="sha" @file-deleted="handleDeleted" />
     <!-- Waiting overlay -->
     <Teleport to="body">
       <div class="waiting" v-show="status == 'saving'"></div>

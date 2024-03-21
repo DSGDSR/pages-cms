@@ -130,7 +130,6 @@
             class="flex grid-x-3 max-w-full mt-auto border-t border-neutral-200 dark:border-neutral-750 px-3 py-2.5 lg:px-4 lg:py-3"
           >
             <User />
-            <About />
           </div>
         </div>
       </div>
@@ -219,7 +218,6 @@ import { useRoute, useRouter } from "vue-router";
 import config from "@/services/config";
 import notifications from "@/services/notifications";
 import github from "@/services/github";
-import About from "@/components/About.vue";
 import Icon from "@/components/utils/Icon.vue";
 import Dropdown from "@/components/utils/Dropdown.vue";
 import Modal from "@/components/utils/Modal.vue";
