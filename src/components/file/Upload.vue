@@ -45,16 +45,16 @@ const upload = async (file) => {
   if (file) {
     let content = await readFileContent(file);
     if (content) {
-      const notificationId = notifications.notify(`Uploading "${file.name}".`, 'processing', { delay: 0 });
+      const notificationId = notifications.notify(`Subiendo "${file.name}"...`, 'processing', { delay: 0 });
       content = content.replace(/^(.+,)/, ''); // We strip out the info at the beginning of the file (mime type + encoding)
       const fullPath = props.path ? `${props.path}/${file.name}` : file.name;
       const data = await github.saveFile(props.owner, props.repo, props.branch, fullPath, content, null, true);
       notifications.close(notificationId);
       if (data) {
-        notifications.notify(`File '${file.name}' successfully uploaded.`, 'success');
+        notifications.notify(`El archivo '${file.name}' se ha subido satisfactoriamente.`, 'success');
         emits('uploaded', file);
       } else {
-        notifications.notify(`File upload failed.`, 'error');
+        notifications.notify(`Ha ocurridon error en la subida del archivo.`, 'error');
         emits('error', file);
       }
     }

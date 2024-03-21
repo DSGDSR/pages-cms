@@ -53,7 +53,7 @@
         <!-- Upload a file -->
         <button class="btn-sm" @click="uploadComponent.openFileInput()">
           <Icon name="Upload" class="h-4 w-4 stroke-2 shrink-0"/>
-          Upload file
+          Subir archivo
           <div class="spinner-white-sm" v-if="status == 'uploading'"></div>
         </button>
         <!-- Toggle layout -->
