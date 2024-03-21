@@ -14,63 +14,148 @@
         <div
           class="flex grow flex-col overflow-y-auto border-r border-neutral-200 bg-white dark:border-neutral-750 dark:bg-neutral-950"
         >
-          <!-- Repository info and links
+          <!-- Repository info and links -->
           <div class="px-3 py-2.5 lg:px-4 lg:py-3">
             <Dropdown>
               <template #trigger>
-                <button class="btn group-[.dropdown-active]:bg-neutral-100 dark:group-[.dropdown-active]:bg-neutral-850 w-full">
-                  <div class="flex items-center gap-x-3 w-full truncate -ml-1 lg:-ml-1.5">
-                    <img class="h-10 w-10 rounded-lg" :src="'https://github.com/' + props.owner + '.png'" alt="Owner's avatar"/>
+                <button
+                  class="btn group-[.dropdown-active]:bg-neutral-100 dark:group-[.dropdown-active]:bg-neutral-850 w-full"
+                >
+                  <div
+                    class="flex items-center gap-x-3 w-full truncate -ml-1 lg:-ml-1.5"
+                  >
+                    <img
+                      class="h-10 w-10 rounded-lg"
+                      :src="'https://github.com/' + props.owner + '.png'"
+                      alt="Owner's avatar"
+                    />
                     <div class="text-left overflow-hidden">
                       <div class="font-medium truncate">{{ props.repo }}</div>
                       <div class="truncate text-xs">{{ props.branch }}</div>
                     </div>
                   </div>
-                  <Icon name="ChevronsUpDown" class="h-4 w-4 stroke-2 shrink-0 -mr-1 lg:-mr-1.5"/>
+                  <Icon
+                    name="ChevronsUpDown"
+                    class="h-4 w-4 stroke-2 shrink-0 -mr-1 lg:-mr-1.5"
+                  />
                 </button>
               </template>
               <template #content>
                 <ul>
-                  <li><div class="font-medium text-xs pb-1 px-3 text-neutral-400 dark:text-neutral-500">Owner & Repository</div></li>
                   <li>
-                    <a class="link w-full" :href="`https://github.com/${props.owner}`" target="_blank">
-                      <span class="truncate" :title="props.owner">{{ props.owner }}</span>
-                      <Icon name="ExternalLink" class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"/>
+                    <div
+                      class="font-medium text-xs pb-1 px-3 text-neutral-400 dark:text-neutral-500"
+                    >
+                      Owner & Repository
+                    </div>
+                  </li>
+                  <li>
+                    <a
+                      class="link w-full"
+                      :href="`https://github.com/${props.owner}`"
+                      target="_blank"
+                    >
+                      <span class="truncate" :title="props.owner">{{
+                        props.owner
+                      }}</span>
+                      <Icon
+                        name="ExternalLink"
+                        class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"
+                      />
                     </a>
                   </li>
                   <li>
-                    <a class="link w-full" :href="`https://github.com/${props.owner}/${props.repo}`" target="_blank">
-                      <span class="truncate" :title="props.repo">{{ props.repo }}</span>
-                      <Icon name="ExternalLink" class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"/>
+                    <a
+                      class="link w-full"
+                      :href="`https://github.com/${props.owner}/${props.repo}`"
+                      target="_blank"
+                    >
+                      <span class="truncate" :title="props.repo">{{
+                        props.repo
+                      }}</span>
+                      <Icon
+                        name="ExternalLink"
+                        class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"
+                      />
                     </a>
                   </li>
-                  <li><hr class="border-t border-neutral-150 dark:border-neutral-750 my-1"/></li>
-                  <li><button @click.prevent="repoMenuModal.openModal(); isSidebarActive = false;" class="link w-full">Change repository</button></li>
-                  <li><hr class="border-t border-neutral-150 dark:border-neutral-750 my-1"/></li>
-                  <li><div class="font-medium text-xs pb-1 px-3 text-neutral-400 dark:text-neutral-500">Branches</div></li>
+                  <li>
+                    <hr
+                      class="border-t border-neutral-150 dark:border-neutral-750 my-1"
+                    />
+                  </li>
+                  <li>
+                    <button
+                      @click.prevent="
+                        repoMenuModal.openModal();
+                        isSidebarActive = false;
+                      "
+                      class="link w-full"
+                    >
+                      Change repository
+                    </button>
+                  </li>
+                  <li>
+                    <hr
+                      class="border-t border-neutral-150 dark:border-neutral-750 my-1"
+                    />
+                  </li>
+                  <li>
+                    <div
+                      class="font-medium text-xs pb-1 px-3 text-neutral-400 dark:text-neutral-500"
+                    >
+                      Branches
+                    </div>
+                  </li>
                   <li v-if="branches.length">
                     <router-link
-                      v-for="branch in branches" :to="{ name: route.name, params: {...route.params, branch: branch }}"
+                      v-for="branch in branches"
+                      :to="{
+                        name: route.name,
+                        params: { ...route.params, branch: branch },
+                      }"
                       @click="isSidebarActive = false"
                       class="link w-full"
                     >
                       <span class="truncate" :title="branch">{{ branch }}</span>
-                      <Icon v-if="branch === props.branch" name="Check" class="h-4 w-4 stroke-2 shrink-0 ml-auto"/>
+                      <Icon
+                        v-if="branch === props.branch"
+                        name="Check"
+                        class="h-4 w-4 stroke-2 shrink-0 ml-auto"
+                      />
                     </router-link>
                   </li>
                   <li v-else>
-                    <div class="py-2 px-3 text-neutral-400 dark:text-neutral-500">No branch</div>
+                    <div
+                      class="py-2 px-3 text-neutral-400 dark:text-neutral-500"
+                    >
+                      No branch
+                    </div>
                   </li>
-                  <li><hr class="border-t border-neutral-150 dark:border-neutral-750 my-1"/></li>
-                  <li><button @click.prevent="branchesModal.openModal(); isSidebarActive = false;" class="link w-full">Manage branches</button></li>
+                  <li>
+                    <hr
+                      class="border-t border-neutral-150 dark:border-neutral-750 my-1"
+                    />
+                  </li>
+                  <li>
+                    <button
+                      @click.prevent="
+                        branchesModal.openModal();
+                        isSidebarActive = false;
+                      "
+                      class="link w-full"
+                    >
+                      Manage branches
+                    </button>
+                  </li>
                 </ul>
               </template>
             </Dropdown>
-          </div> -->
+          </div>
           <!-- Main navigation: Content, Media, Files and Settings -->
           <nav
             v-if="repoStore.config?.object !== undefined"
-            class="flex flex-1 flex-col px-3 py-2.5 lg:px-4 lg:pb-3 sidebar-navigation"
+            class="flex flex-1 flex-col px-3 pb-2.5 lg:px-4 lg:pb-3 sidebar-navigation"
           >
             <ul role="list" class="flex flex-1 flex-col">
               <li>
