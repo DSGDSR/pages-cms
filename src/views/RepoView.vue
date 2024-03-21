@@ -70,7 +70,7 @@
           <!-- Main navigation: Content, Media, Files and Settings -->
           <nav
             v-if="repoStore.config?.object !== undefined"
-            class="flex flex-1 flex-col px-3 pb-2.5 lg:px-4 lg:pb-3 sidebar-navigation"
+            class="flex flex-1 flex-col px-3 py-2.5 lg:px-4 lg:pb-3 sidebar-navigation"
           >
             <ul role="list" class="flex flex-1 flex-col">
               <li>

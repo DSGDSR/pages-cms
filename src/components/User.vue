@@ -27,7 +27,7 @@
         </li>
         <li>
           <button @click="theme.setTheme('dark')" class="link w-full">
-            Dark
+            Oscuro
             <Icon
               v-if="theme.userTheme() === 'dark'"
               name="Check"
@@ -37,7 +37,7 @@
         </li>
         <li>
           <button @click="theme.setTheme('light')" class="link w-full">
-            Light
+            Claro
             <Icon
               v-if="theme.userTheme() === 'light'"
               name="Check"
@@ -47,7 +47,7 @@
         </li>
         <li>
           <button @click="theme.clearTheme()" class="link w-full">
-            System
+            Sistema
             <Icon
               v-if="!theme.userTheme()"
               name="Check"
