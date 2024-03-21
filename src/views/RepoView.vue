@@ -16,7 +16,7 @@
         >
           <!-- Repository info and links -->
           <div class="px-3 py-2.5 lg:px-4 lg:py-3">
-            <Dropdown>
+            <Dropdown :disabled="true">
               <template #trigger>
                 <button
                   class="btn group-[.dropdown-active]:bg-neutral-100 dark:group-[.dropdown-active]:bg-neutral-850 w-full"
@@ -26,129 +26,26 @@
                   >
                     <img
                       class="h-10 w-10 rounded-lg"
-                      :src="'https://github.com/' + props.owner + '.png'"
+                      :src="
+                        'https://raw.githubusercontent.com/' +
+                        props.owner +
+                        '/' +
+                        props.repo +
+                        '/main/logo.png'
+                      "
                       alt="Owner's avatar"
                     />
                     <div class="text-left overflow-hidden">
-                      <div class="font-medium truncate">{{ props.repo }}</div>
-                      <div class="truncate text-xs">{{ props.branch }}</div>
+                      <div class="font-medium truncate">
+                        {{
+                          toPascalCase(
+                            props.repo.replace("pages-", "").replace("-", " ")
+                          )
+                        }}
+                      </div>
                     </div>
                   </div>
-                  <Icon
-                    name="ChevronsUpDown"
-                    class="h-4 w-4 stroke-2 shrink-0 -mr-1 lg:-mr-1.5"
-                  />
                 </button>
-              </template>
-              <template #content>
-                <ul>
-                  <li>
-                    <div
-                      class="font-medium text-xs pb-1 px-3 text-neutral-400 dark:text-neutral-500"
-                    >
-                      Owner & Repository
-                    </div>
-                  </li>
-                  <li>
-                    <a
-                      class="link w-full"
-                      :href="`https://github.com/${props.owner}`"
-                      target="_blank"
-                    >
-                      <span class="truncate" :title="props.owner">{{
-                        props.owner
-                      }}</span>
-                      <Icon
-                        name="ExternalLink"
-                        class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      class="link w-full"
-                      :href="`https://github.com/${props.owner}/${props.repo}`"
-                      target="_blank"
-                    >
-                      <span class="truncate" :title="props.repo">{{
-                        props.repo
-                      }}</span>
-                      <Icon
-                        name="ExternalLink"
-                        class="h-4 w-4 stroke-2 shrink-0 ml-auto text-neutral-400 dark:text-neutral-500"
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <hr
-                      class="border-t border-neutral-150 dark:border-neutral-750 my-1"
-                    />
-                  </li>
-                  <li>
-                    <button
-                      @click.prevent="
-                        repoMenuModal.openModal();
-                        isSidebarActive = false;
-                      "
-                      class="link w-full"
-                    >
-                      Change repository
-                    </button>
-                  </li>
-                  <li>
-                    <hr
-                      class="border-t border-neutral-150 dark:border-neutral-750 my-1"
-                    />
-                  </li>
-                  <li>
-                    <div
-                      class="font-medium text-xs pb-1 px-3 text-neutral-400 dark:text-neutral-500"
-                    >
-                      Branches
-                    </div>
-                  </li>
-                  <li v-if="branches.length">
-                    <router-link
-                      v-for="branch in branches"
-                      :to="{
-                        name: route.name,
-                        params: { ...route.params, branch: branch },
-                      }"
-                      @click="isSidebarActive = false"
-                      class="link w-full"
-                    >
-                      <span class="truncate" :title="branch">{{ branch }}</span>
-                      <Icon
-                        v-if="branch === props.branch"
-                        name="Check"
-                        class="h-4 w-4 stroke-2 shrink-0 ml-auto"
-                      />
-                    </router-link>
-                  </li>
-                  <li v-else>
-                    <div
-                      class="py-2 px-3 text-neutral-400 dark:text-neutral-500"
-                    >
-                      No branch
-                    </div>
-                  </li>
-                  <li>
-                    <hr
-                      class="border-t border-neutral-150 dark:border-neutral-750 my-1"
-                    />
-                  </li>
-                  <li>
-                    <button
-                      @click.prevent="
-                        branchesModal.openModal();
-                        isSidebarActive = false;
-                      "
-                      class="link w-full"
-                    >
-                      Manage branches
-                    </button>
-                  </li>
-                </ul>
               </template>
             </Dropdown>
           </div>
@@ -329,6 +226,14 @@ import Modal from "@/components/utils/Modal.vue";
 import RepoMenu from "@/components/repo/RepoMenu.vue";
 import Branches from "@/components/Branches.vue";
 import User from "@/components/User.vue";
+
+function toPascalCase(text) {
+  return text.replace(/(^\w|-\w)/g, clearAndUpper);
+}
+
+function clearAndUpper(text) {
+  return text.replace(/-/, "").toUpperCase();
+}
 
 const route = useRoute();
 const router = useRouter();

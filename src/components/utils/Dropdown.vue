@@ -1,8 +1,21 @@
 <template>
-  <div ref="dropdownRef" class="relative group" @click="toggleDropdown" :class="[ isOpen ? 'dropdown-active' : '', props.elementClass ]">
+  <div
+    ref="dropdownRef"
+    class="relative group"
+    @click="toggleDropdown"
+    :class="[isOpen ? 'dropdown-active' : '', props.elementClass]"
+  >
     <slot name="trigger"></slot>
     <Transition>
-      <div v-if="isOpen" class="dropdown-content adjust-dark text-sm p-2" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" :class="[ dropdownClass ]">
+      <div
+        v-if="isOpen && !disabled"
+        class="dropdown-content adjust-dark text-sm p-2"
+        role="menu"
+        aria-orientation="vertical"
+        aria-labelledby="menu-button"
+        tabindex="-1"
+        :class="[dropdownClass]"
+      >
         <slot name="content"></slot>
       </div>
     </Transition>
@@ -10,24 +23,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
   elementClass: {
     type: String,
-    default: ''
+    default: "",
   },
   dropdownClass: {
     type: String,
-    default: ''
-  }
+    default: "",
+  },
 });
 
 const isOpen = ref(false);
 const dropdownRef = ref(null);
 
 const toggleDropdown = (event) => {
-  isOpen.value = !isOpen.value;
+  if (!props.disabled) {
+    isOpen.value = !isOpen.value;
+  }
 };
 
 const closeDropdown = (event) => {
@@ -37,11 +56,11 @@ const closeDropdown = (event) => {
 };
 
 onMounted(() => {
-  document.addEventListener('click', closeDropdown);
+  document.addEventListener("click", closeDropdown);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', closeDropdown);
+  document.removeEventListener("click", closeDropdown);
 });
 </script>
 
