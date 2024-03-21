@@ -7,11 +7,8 @@
   <template v-if="status == 'error'">
     <div class="error">
       <div class="text-center max-w-md">
-        <h1 class="font-semibold text-2xl mb-2">Something's not right.</h1>
-        <p class="text-neutral-400 dark:text-neutral-500 mb-6">Either your <code class="text-sm bg-neutral-100 dark:bg-neutral-850 rounded-lg p-1">media</code> settings are wrong or you may need to create the <code class="text-sm bg-neutral-100 dark:bg-neutral-850 rounded-lg p-1">{{ root }}</code> folder in this repository.</p>
-        <div class="flex gap-x-2 justify-center">
-          <router-link class="btn-primary" :to="{name: 'settings'}">Review settings</router-link>
-        </div>
+        <h1 class="font-semibold text-2xl mb-2">Algo ha salido mal 😢</h1>
+        <p class="text-neutral-400 dark:text-neutral-500 mb-6">Contacta directamente con el administrador</p>
       </div>
     </div>
   </template>
@@ -24,7 +21,7 @@
           <li v-if="path != root">
             <button @click="goTo(root)" class="fb-parent-link group relative btn-icon-sm !rounded-r-none">
               <Icon name="Home" class="h-4 w-4 stroke-2 shrink-0"/>
-              <div class="tooltip-top">Home</div>
+              <div class="tooltip-top">Inicio</div>
             </button>
           </li>
           <template v-for="(segment, index) in breadcrumb" :key="index">
@@ -45,13 +42,13 @@
         <!-- Go to parent -->
         <button v-else-if="path != root" @click="goTo(parentPath)" class="fb-parent-link group relative btn-icon-sm">
           <Icon name="CornerLeftUp" class="h-4 w-4 stroke-2 shrink-0"/>
-          <div class="tooltip-top">Go to parent</div>
+          <div class="tooltip-top">Ir al padre</div>
         </button>
         <!-- Add a folder -->
         <button class="btn-icon-sm relative group ml-auto" @click="openAddFolderModal()">
           <Icon name="FolderPlus" class="h-4 w-4 stroke-2 shrink-0"/>
           <div class="spinner-white-sm" v-if="status == 'creating-folder'"></div>
-          <div class="tooltip-top">Add a folder</div>
+          <div class="tooltip-top">Crear carpeta</div>
         </button>
         <!-- Upload a file -->
         <button class="btn-sm" @click="uploadComponent.openFileInput()">
@@ -63,11 +60,11 @@
         <div class="fb-view flex">
           <button @click="setLayout('list')" class="fb-view-list group btn-icon-sm !rounded-r-none relative" :disabled="layout == 'list'" :class="{ '!bg-neutral-200 dark:!bg-neutral-700': (layout == 'list') }">
             <Icon name="LayoutList" class="h-4 w-4 stroke-2 shrink-0"/>
-            <div class="tooltip-top">List view</div>
+            <div class="tooltip-top">Lista</div>
           </button>
           <button @click="setLayout('grid')" class="fb-view-grid group btn-icon-sm !rounded-l-none !border-l-0 relative" :disabled="layout == 'grid'" :class="{ '!bg-neutral-200 dark:!bg-neutral-700': (layout == 'grid') }">
             <Icon name="LayoutGrid" class="h-4 w-4 stroke-2 shrink-0"/>
-            <div class="tooltip-top-right">Grid view</div>
+            <div class="tooltip-top-right">Cuadrícula</div>
           </button>
         </div>
       </header>
@@ -113,8 +110,8 @@
                     </template>
                     <template #content>
                       <ul>
-                        <li><button class="link w-full" @click="openRenameModal(item)">Rename</button></li>
-                        <li><button class="link-danger w-full" @click="openDeleteModal(item)">Delete</button></li>
+                        <li><button class="link w-full" @click="openRenameModal(item)">Renombrar</button></li>
+                        <li><button class="link-danger w-full" @click="openDeleteModal(item)">Eliminar</button></li>
                       </ul>
                     </template>
                   </Dropdown>
@@ -126,14 +123,14 @@
         <!-- Empty folder -->
         <div v-else class="text-center rounded-xl bg-neutral-100 dark:bg-neutral-850 p-6">
           <div class="max-w-md mx-auto">
-            <h2 class="font-semibold tracking-tight">Empty folder</h2>
-            <p class="text-neutral-400 dark:text-neutral-500"><template v-if="filteredExtensions.length > 0">There are no maching files in this folder ({{ filteredExtensions.join(', ') }})</template><template v-else>There are no files in this folder</template>. You can drag-and-drop files here or use the "Upload file" button to add files.</p>
+            <h2 class="font-semibold tracking-tight">Carpeta vacía</h2>
+            <p class="text-neutral-400 dark:text-neutral-500"><template v-if="filteredExtensions.length > 0">No hay archivos coincidentes en esta carpeta ({{ filteredExtensions.join(', ') }})</template><template v-else>No hay archivos en esta carpeta</template>. Puedes arrastrar y soltar archivos aquí o usar el botón "Cargar archivo" para añadir archivos.</p>
           </div>
         </div>
         <div class="fb-drag-message">
           <div class="flex gap-x-2 font-medium items-center">
             <Icon name="Import" class="h-6 w-6 stroke-[1.5] shrink-0"/>
-            <span>Drop your files here</span>
+            <span>Arrastra tus archivos aquí</span>
           </div>
         </div>
       </div>

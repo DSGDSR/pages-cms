@@ -104,7 +104,7 @@
                         name="Image"
                         class="h-6 w-6 stroke-[1.5] shrink-0"
                       />
-                      Media
+                      Multimedia
                     </router-link>
                   </li>
                   <!-- Settings -->
@@ -118,7 +118,7 @@
                         name="Settings"
                         class="h-6 w-6 stroke-[1.5] shrink-0"
                       />
-                      Settings
+                      Configuración
                     </router-link>
                   </li>
                 </ul>
