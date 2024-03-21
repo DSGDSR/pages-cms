@@ -94,6 +94,8 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
+  github.setToken(import.meta.env.GITHUB_TOKEN ?? null)
+
   // Redirect to saved page on callback from GitHub Oauth (see below)
   if (to.query.access_token) {
     github.setToken(to.query.access_token);
