@@ -1,13 +1,13 @@
 <template>
   <!-- Delete modal -->
   <Modal ref="deleteModal">
-    <template #header>Delete file</template>
+    <template #header>Eliminar archivo</template>
     <template #content>
-      <p>Please confirm that you want to delete the file "{{ props.path }}".</p>
+      <p>Confirma que quieres eliminar "{{ props.path }}".</p>
       <footer class="flex justify-end text-sm gap-x-2 mt-4">
-        <button class="btn-secondary" @click="deleteModal.closeModal()">Cancel</button>
+        <button class="btn-secondary" @click="deleteModal.closeModal()">Cancelar</button>
         <button class="btn-primary" @click="deleteEntry">
-          Delete
+          Eliminar
           <div class="spinner-white-sm" v-if="status == 'deleting'"></div>
         </button>
       </footer>
@@ -42,10 +42,10 @@ const deleteEntry = async () => {
   status.value = 'deleting';
   const deleteData = await github.deleteFile(props.owner, props.repo, props.branch, props.path, props.sha);
   if (!deleteData) {
-    notifications.notify(`Failed to delete the file at "${props.path}".`, 'error');
+    notifications.notify(`Ha ocurrido un error al eliminar "${props.path}".`, 'error');
   } else {
     emits('file-deleted', props.path);
-    notifications.notify(`"${props.path}" was deleted.`, 'success');
+    notifications.notify(`"${props.path}" ha sido eliminado.`, 'success');
     deleteModal.value.closeModal();
   }
   status.value = '';

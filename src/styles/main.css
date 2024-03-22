@@ -442,6 +442,10 @@ fieldset .field:last-child {
   @apply max-w-full	custom-shadow absolute right-0 z-10 mt-1 origin-top-right rounded-2xl bg-white focus:outline-none dark:bg-neutral-850;
 }
 
+.tiptap-controls .dropdown-content {
+  @apply transition-all !max-w-none left-1/2 -translate-x-1/2 !right-auto;
+}
+
 .dropdown-top .dropdown-content {
   @apply bottom-full right-0 z-10 mt-1 origin-bottom-right;
 }

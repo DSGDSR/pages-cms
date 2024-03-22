@@ -6,7 +6,7 @@ export default function useFieldValidation() {
   const validateRequired = (schema, value) => {
     let errors = [];
     if (schema.required && !sanitizeObject(value)) {
-      errors.push('This field is required.');
+      errors.push('Este campo es obligatorio.');
     }
     return errors;
   };
@@ -15,10 +15,10 @@ export default function useFieldValidation() {
     let errors = [];
     const sanitizedValue = value.filter(entry => sanitizeObject(entry));
     if (schema.list?.min && sanitizedValue.length < schema.list.min) {
-      errors.push(`This list must contain at least ${schema.list.min} ${schema.list.min === 1 ? 'entry' : 'entries'}.`);
+      errors.push(`Esta lista debe contener al menos ${schema.list.min} ${schema.list.min === 1 ? 'entrada' : 'entradas'}.`);
     }
     if (schema.list?.max && sanitizedValue.length > schema.list.max) {
-      errors.push(`This list must contain at most ${schema.list.max} ${schema.list.max === 1 ? 'entry' : 'entries'}.`);
+      errors.push(`Esta lista debe contener como máximo ${schema.list.max} ${schema.list.max === 1 ? 'entrada' : 'entradas'}.`);
     }
     return errors;
   }
@@ -31,10 +31,10 @@ export default function useFieldValidation() {
     // `pattern` can be a string or an object
     if (typeof pattern === 'string') {
       regex = new RegExp(pattern);
-      message = 'This field does not match the required pattern.';
+      message = 'Este campo no cumple con el patrón requerido.';
     } else if (pattern && typeof pattern === 'object' && pattern.regex) {
       regex = new RegExp(pattern.regex);
-      message = pattern.message || 'This field does not match the required pattern.';
+      message = pattern.message || 'Este campo no cumple con el patrón requerido.';
     }
 
     if (regex && !regex.test(value)) {
@@ -47,10 +47,10 @@ export default function useFieldValidation() {
   const validateLength = (schema, value) => {
     let errors = [];
     if (schema.options?.minlength && value.length < schema.options.minlength) {
-      errors.push(`This field must be at least ${schema.options.minlength} ${schema.options.minlength === 1 ? 'character' : 'characters'} long.`);
+      errors.push(`Este campo debe contener al menos ${schema.options.minlength} ${schema.options.minlength === 1 ? 'caracter' : 'caracteres'}.`);
     }
     if (schema.options?.maxlength && value.length > schema.options.maxlength) {
-      errors.push(`This field must be at most ${schema.options.maxlength} ${schema.options.maxlength === 1 ? 'character' : 'characters'} long.`);
+      errors.push(`Este campo debe contener como máximo ${schema.options.maxlength} ${schema.options.maxlength === 1 ? 'caracter' : 'caracteres'}.`);
     }
     return errors;
   };
@@ -58,10 +58,10 @@ export default function useFieldValidation() {
   const validateRange = (schema, value) => {
     let errors = [];
     if (schema.options?.min && value < schema.options.min) {
-      errors.push(`This field must have a value of at least ${schema.options.min}.`);
+      errors.push(`Este campo debe tener un valor de al menos ${schema.options.min}.`);
     }
     if (schema.options?.max && value > schema.options.max) {
-      errors.push(`This field must have a value of at most ${schema.options.max}.`);
+      errors.push(`Este campo debe tener un valor de ${schema.options.max} máximo.`);
     }
     return errors;
   };
