@@ -156,13 +156,6 @@
           <template #content>
             <ul>
               <li>
-                <button class="link w-full" @click="editor.chain().focus().toggleBlockquote().run()"
-                  :disabled="!editor.can().chain().focus().toggleBlockquote().run()"
-                  :class="{ 'bg-neutral-100': editor.isActive('blockquote') }">
-                  Blockquote
-                </button>
-              </li>
-              <li>
                 <button class="link w-full" @click="editor.chain().focus().toggleCode().run()"
                   :disabled="!editor.can().chain().focus().toggleCode().run()"
                   :class="{ 'bg-neutral-100': editor.isActive('code') }">
