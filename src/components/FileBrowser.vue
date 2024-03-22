@@ -110,6 +110,8 @@
                     </template>
                     <template #content>
                       <ul>
+                        <li><button class="link w-full" @click="openNewTab(item)">Abir en una pestaña</button></li>
+                        <li><button class="link w-full" @click="copyLink(item)">Copiar enlace</button></li>
                         <li><button class="link w-full" @click="openRenameModal(item)">Renombrar</button></li>
                         <li><button class="link-danger w-full" @click="openDeleteModal(item)">Eliminar</button></li>
                       </ul>
@@ -183,6 +185,7 @@ import AddFolder from '@/components/file/AddFolder.vue';
 import Image from '@/components/file/Image.vue';
 import Rename from '@/components/file/Rename.vue';
 import Upload from '@/components/file/Upload.vue';
+import notifications from '@/services/notifications';
 
 // Categories for filtering
 const extensionCategories = {
@@ -254,6 +257,15 @@ function openAddFolderModal() {
 const handleFolderAdded = () => {
   setContents();
 };
+
+const openNewTab = (item) => {
+  window.open(item.html_url.replace('/blob/', '/raw/'), '_blank').focus()
+} 
+
+const copyLink = (item) => {
+  navigator.clipboard.writeText(item.html_url.replace('/blob/', '/raw/'))
+  notifications.notify(`Url del archivo "${item.name}" copiada al portapapeles.`, 'success');
+} 
 
 function openRenameModal(item) {
   renamePath.value = item.path;

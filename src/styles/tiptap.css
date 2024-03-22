@@ -1,7 +1,7 @@
 /* TipTap */
 
 .tiptap-controls {
-  @apply sticky top-[55px] lg:top-[59px] z-20 p-3 opacity-100 hover:z-50 flex;
+  @apply sticky top-[55px] lg:top-[59px] z-20 p-3 opacity-100 hover:z-50 flex justify-between;
 }
 
 .tiptap-controls-wrapper {

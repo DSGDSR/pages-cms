@@ -103,6 +103,10 @@
             <Icon name="AlignJustify" class="h-4 w-4 stroke-2 shrink-0" />
             <div class="tooltip-top">Justificar texto</div>
           </button>
+          <button @click="addSeparator()" class="tiptap-control group relative">
+            <Icon name="Minus" class="h-4 w-4 stroke-2 shrink-0" />
+            <div class="tooltip-top">Separador</div>
+          </button>
 
           <!-- Separator 3 -->
           <div class="pl-1 pr-3 relative"><span class="absolute border-r-[1px] border-neutral-600 h-full"
@@ -174,7 +178,21 @@
         </Dropdown-->
       </div>
 
+      <!--  Undo redo -->
+      <div class="tiptap-controls-wrapper">
+        <button @click="editor.chain().focus().undo().run()" :disabled="!editor.can().undo() "
+          class="tiptap-control group relative">
+          <Icon name="Undo" class="h-4 w-4 stroke-2 shrink-0" />
+          <div class="tooltip-top">Deshacer</div>
+        </button>
+        <button @click="editor.chain().focus().redo().run()" :disabled="!editor.can().redo() "
+          class="tiptap-control group relative">
+          <Icon name="Redo" class="h-4 w-4 stroke-2 shrink-0" />
+          <div class="tooltip-top">Rehacer</div>
+        </button>
+      </div>
     </div>
+
     <!-- TipTap Editor -->
     <template v-if="!isCodeEditor">
       <EditorContent :editor="editor" />
@@ -267,6 +285,7 @@ import Modal from '@/components/utils/Modal.vue';
 import { Video } from '@/components/tiptap/video.ts';
 import Underline from '@tiptap/extension-underline'
 import Youtube from '@tiptap/extension-youtube'
+import HorizontalRule from '@tiptap/extension-horizontal-rule'
 
 const CodeMirror = defineAsyncComponent(() => import('@/components/file/CodeMirror.vue'));
 
@@ -353,6 +372,8 @@ const setContent = async () => {
     editor.value.commands.setContent(htmlContent);
   }
   status.value = '';
+  // clean history
+  editor.value.state['history$'].done.items.values = []
 };
 
 const toggleJustify = () => {
@@ -393,6 +414,10 @@ const addYoutubeVideo = () => {
   }
 }
 
+const addSeparator = () => {
+  editor.value.commands.setHorizontalRule()
+}
+
 const editor = useEditor({
   extensions: [
     StarterKit.configure({
@@ -429,7 +454,12 @@ const editor = useEditor({
     TableRow,
     TableHeader,
     TableCell,
-    Video
+    Video,
+    HorizontalRule.configure({
+      HTMLAttributes: {
+        class: 'horizontal-rule',
+      },
+    })
   ],
   editorProps: {
     handleDrop: async function(view, event, slice, moved) {
